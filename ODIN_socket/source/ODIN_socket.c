@@ -100,17 +100,31 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 	// the amount of pixels specified in PIXELS_PER_BATCH
 
 	if(pixel_position == 288000){
+		memset(frame_buffer,0,BYTES_IN_GFX_BUFFER);
 		pixel_position = 0;
-	}else if(pixel_position > 288000){
-		print_bottom("Vi obosralis");
 	}
 
 	// end of the array
 	u16* pixels_end = pixels + PIXELS_PER_BATCH;
 
 	// iterate over pixels
-	for(pixels; pixels<pixels_end; pixels += 1){
-		u16 pixel = *pixels;
+	// for(pixels; pixels<pixels_end; pixels += 1){
+	// 	u16 pixel = *pixels;
+
+	// 	uint8_t r = pixel >> 11;
+	// 	uint8_t g = (pixel >> 5) & 0x3F;
+	// 	uint8_t b = pixel & 0x1F;
+
+	// 	frame_buffer[pixel_position] = r;
+	// 	frame_buffer[pixel_position+1] = g;
+	// 	frame_buffer[pixel_position+2] = b;
+
+	// 	pixel_position += 3;
+
+	// }
+
+	for(int i; i<PIXELS_PER_BATCH; i += 1){
+		u16 pixel = pixels[i];
 
 		uint8_t r = pixel >> 11;
 		uint8_t g = (pixel >> 5) & 0x3F;
