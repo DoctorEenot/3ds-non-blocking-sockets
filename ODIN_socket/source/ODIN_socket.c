@@ -123,7 +123,7 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 
 	// }
 
-	for(int i; i<PIXELS_PER_BATCH; i += 1){
+	for(int i = 0; i<PIXELS_PER_BATCH; i += 1){
 		u16 pixel = pixels[i];
 
 		uint8_t r = pixel >> 11;
