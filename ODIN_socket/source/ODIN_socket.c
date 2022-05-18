@@ -87,6 +87,7 @@ void init(){
 	atexit(socShutdown);
 
 	gfxSetDoubleBuffering(GFX_TOP,true);
+	gfxSetWide(false);
 
 	print_bottom("\nInit complet\n");
 }
@@ -215,13 +216,21 @@ int main(int argc, char** argv) {
 					// recieved data
 					last_recieved_size = 0;
 
+					u16 width = 0;
+					u16 height = 0;
+
 					frame_buffer = gfxGetFramebuffer(GFX_TOP,
 													GFX_LEFT,
-													NULL, 
-													NULL);
+													&width, 
+													&height);
+
+					print_bottom("SIZE: %d %d\n",width,height);
 
 					print_buffer((u8*)frame_buffer,
 								(u16*)recv_buffer);
+
+					gfxFlushBuffers();
+					gfxScreenSwapBuffers(GFX_TOP,false);
 
 					memset(recv_buffer, 0, BYTES_PER_BATCH);
 
@@ -281,8 +290,8 @@ int main(int argc, char** argv) {
 					print_bottom("we are stopped\n");
 				}
 
-				gfxFlushBuffers();
-				gfxSwapBuffers();
+				// gfxFlushBuffers();
+				// gfxSwapBuffers();
 				//gspWaitForVBlank();
 			}
 
