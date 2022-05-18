@@ -306,7 +306,7 @@ int main(int argc, char** argv) {
 				// gfxFlushBuffers();
 				// gfxSwapBuffers();
 				gfxScreenSwapBuffers(GFX_BOTTOM,false);
-				gspWaitForVBlank();
+				//gspWaitForVBlank();
 			}
 
 
