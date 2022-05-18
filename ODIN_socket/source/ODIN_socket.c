@@ -32,13 +32,23 @@ PrintConsole topScreen, bottomScreen;
 __attribute__((format(printf, 1, 2)))
 void failExit(const char* fmt, ...);
 
-void print_bottom(char* text){
+void print_bottom(char* fmt...){
+	va_list args;
+	va_start(args,fmt);
+
 	consoleSelect(&bottomScreen);
-	printf(text);
+	printf(fmt,args);
+
+	va_end(args);
 }
-void print_top(char* text){
+void print_top(char* fmt...){
+	va_list args;
+	va_start(args,fmt);
+
 	consoleSelect(&topScreen);
-	printf(text);
+	printf(fmt,args);
+
+	va_end(args);
 }
 
 void init(){
@@ -83,10 +93,10 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 	}
 
 	// end of the array
-	u32 pixels_end = pixels + BYTES_PER_BATCH;
+	u16* pixels_end = pixels + PIXELS_PER_BATCH;
 
 	// iterate over pixels
-	for(pixels; pixels<pixels_end; pixels += 2){
+	for(pixels; pixels<pixels_end; pixels += 1){
 		u16 pixel = *pixels;
 
 		uint8_t r = (pixel >> 11) << 3;
