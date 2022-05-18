@@ -198,6 +198,7 @@ int main(int argc, char** argv) {
 			}
 		}
 		else {
+			
 			// set client socket to blocking to simplify sending data back
 			//fcntl(csock, F_SETFL, fcntl(csock, F_GETFL, 0) & ~O_NONBLOCK);
 			print_bottom("Connecting port %d from %s\n", client.sin_port, inet_ntoa(client.sin_addr));
