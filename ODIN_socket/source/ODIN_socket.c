@@ -109,23 +109,8 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 	u16* pixels_end = pixels + PIXELS_PER_BATCH;
 
 	// iterate over pixels
-	// for(pixels; pixels<pixels_end; pixels += 1){
-	// 	u16 pixel = *pixels;
-
-	// 	uint8_t r = pixel >> 11;
-	// 	uint8_t g = (pixel >> 5) & 0x3F;
-	// 	uint8_t b = pixel & 0x1F;
-
-	// 	frame_buffer[pixel_position] = r;
-	// 	frame_buffer[pixel_position+1] = g;
-	// 	frame_buffer[pixel_position+2] = b;
-
-	// 	pixel_position += 3;
-
-	// }
-
-	for(int i = 0; i<PIXELS_PER_BATCH; i += 1){
-		u16 pixel = pixels[i];
+	for(pixels; pixels<pixels_end; pixels += 1){
+		u16 pixel = *pixels;
 
 		uint8_t r = pixel >> 11;
 		uint8_t g = (pixel >> 5) & 0x3F;
@@ -138,6 +123,7 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 		pixel_position += 3;
 
 	}
+
 
 }
 
@@ -220,7 +206,6 @@ int main(int argc, char** argv) {
 		else {
 
 			// set client socket to blocking to simplify sending data back
-			//fcntl(csock, F_SETFL, fcntl(csock, F_GETFL, 0) & ~O_NONBLOCK);
 			print_bottom("Connecting port %d from %s\n", client.sin_port, inet_ntoa(client.sin_addr));
 			
 			while (client_sock != -1) {
@@ -303,10 +288,8 @@ int main(int argc, char** argv) {
 					//print_bottom("we are stopped\n");
 				}
 
-				// gfxFlushBuffers();
-				// gfxSwapBuffers();
 				gfxScreenSwapBuffers(GFX_BOTTOM,false);
-				//gspWaitForVBlank();
+				gspWaitForVBlank();
 			}
 
 
