@@ -246,7 +246,7 @@ int main(int argc, char** argv) {
 					print_bottom("You pressed A\n");
 				}else if (pressed_key & KEY_B) {
 					send(client_sock, "B,", 2, 0);
-					print_bottom("You pressed B\n",);
+					print_bottom("You pressed B\n");
 				}else if (pressed_key & KEY_X) {
 					send(client_sock, "X,", 2, 0);
 					print_bottom("You pressed X\n");
