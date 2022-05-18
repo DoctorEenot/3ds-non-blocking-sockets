@@ -196,7 +196,7 @@ int main(int argc, char** argv) {
 					// recieved data
 					last_recieved_size = 0;
 
-					print_buffer(frame_buffer,recv_buffer)
+					print_buffer((u8*)frame_buffer,recv_buffer);
 
 					memset(recv_buffer, 0, BYTES_PER_BATCH);
 				}else if(result == -1){
