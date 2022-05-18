@@ -95,14 +95,10 @@ void init(){
 
 
 unsigned long long pixel_position = 0;
-void print_buffer(u8* frame_buffer, u16* pixels){
+int print_buffer(u8* frame_buffer, u16* pixels){
 	// writes pixels to the screen
 	// the amount of pixels specified in PIXELS_PER_BATCH
-
-	if(pixel_position == 288000){
-		memset(frame_buffer,0,BYTES_IN_GFX_BUFFER);
-		pixel_position = 0;
-	}
+	// returns 0 if last batch was written
 
 	// end of the array
 	u16* pixels_end = pixels + PIXELS_PER_BATCH;
@@ -138,6 +134,14 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 
 	}
 
+	if(pixel_position == 288000){
+		gfxFlushBuffers();
+		gfxScreenSwapBuffers(GFX_TOP,false);
+		pixel_position = 0;
+		return 0;
+	}
+
+	return 1;
 }
 
 
@@ -233,18 +237,15 @@ int main(int argc, char** argv) {
 					// recieved data
 					last_recieved_size = 0;
 
+					int ret = print_buffer((u8*)frame_buffer,
+											(u16*)recv_buffer);
 
-					frame_buffer = gfxGetFramebuffer(GFX_TOP,
+					if(ret == 0){
+						frame_buffer = gfxGetFramebuffer(GFX_TOP,
 													GFX_LEFT,
 													NULL, 
 													NULL);
-
-
-					print_buffer((u8*)frame_buffer,
-								(u16*)recv_buffer);
-
-					gfxFlushBuffers();
-					gfxScreenSwapBuffers(GFX_TOP,false);
+					}
 
 					memset(recv_buffer, 0, BYTES_PER_BATCH);
 
@@ -267,25 +268,25 @@ int main(int argc, char** argv) {
 					break;
 				}else if (pressed_key & KEY_A) {
 					send(client_sock, "A,", 2, 0);
-					print_bottom("You pressed A\n");
+					//print_bottom("You pressed A\n");
 				}else if (pressed_key & KEY_B) {
 					send(client_sock, "B,", 2, 0);
-					print_bottom("You pressed B\n");
+					//print_bottom("You pressed B\n");
 				}else if (pressed_key & KEY_X) {
 					send(client_sock, "X,", 2, 0);
-					print_bottom("You pressed X\n");
+					//print_bottom("You pressed X\n");
 				}else if (pressed_key & KEY_Y) {
 					send(client_sock, "Y,", 2, 0);
-					print_bottom("You pressed Y\n");
+					//print_bottom("You pressed Y\n");
 				}else if (pressed_key & KEY_SELECT) {
 					send(client_sock, "SELECT,", 7, 0);
-					print_bottom("You pressed SELECT\n");
+					//print_bottom("You pressed SELECT\n");
 				}else if (pressed_key & KEY_DUP) {
 					send(client_sock, "u,", 2, 0);
-					print_bottom("You pressed dUP\n");
+					//print_bottom("You pressed dUP\n");
 				}else if (pressed_key & KEY_DDOWN) {
 					send(client_sock, "d,", 2, 0);
-					print_bottom("You pressed dDOWN\n");
+					//print_bottom("You pressed dDOWN\n");
 				}
 
 				if (((circle_position.dy > 25) || (circle_position.dy < -25)) || ((circle_position.dx > 25) || (circle_position.dx < -25))) {
@@ -294,14 +295,14 @@ int main(int argc, char** argv) {
 
 					sprintf(posit, "%d;%d,", circle_position.dx, circle_position.dy);
 					send(client_sock, posit, strlen(posit), 0);
-					print_bottom("Circle x y pos is %d :  %d\n", circle_position.dx, circle_position.dy);
+					//print_bottom("Circle x y pos is %d :  %d\n", circle_position.dx, circle_position.dy);
 				}else if (circle_position.dy < 25 && circle_position.dy > -25 && circle_position.dx < 25 && circle_position.dx > -25 && !stop_circle) {
 					// circle is in the middle
 					send(client_sock, "0", 1, 0);
 
 					stop_circle = true;
 					
-					print_bottom("we are stopped\n");
+					//print_bottom("we are stopped\n");
 				}
 
 				// gfxFlushBuffers();
