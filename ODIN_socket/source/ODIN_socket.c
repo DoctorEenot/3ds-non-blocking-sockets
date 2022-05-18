@@ -306,7 +306,7 @@ void failExit(const char* fmt, ...) {
 
 	va_list ap;
 
-	print(CONSOLE_RED);
+	printf(CONSOLE_RED);
 	va_start(ap, fmt);
 	vprintf(fmt, ap);
 	va_end(ap);
