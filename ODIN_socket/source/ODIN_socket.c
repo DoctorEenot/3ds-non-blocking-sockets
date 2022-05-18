@@ -116,7 +116,7 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 		frame_buffer[pixel_position+1] = g;
 		frame_buffer[pixel_position+2] = b;
 
-		pixel_position += 1;
+		pixel_position += 3;
 
 	}
 
