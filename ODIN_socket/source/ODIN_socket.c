@@ -101,6 +101,8 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 
 	if(pixel_position == 288000){
 		pixel_position = 0;
+	}else if(pixel_position > 288000){
+		print_bottom("Vi obosralis");
 	}
 
 	// end of the array
