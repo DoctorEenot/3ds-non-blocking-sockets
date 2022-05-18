@@ -95,10 +95,15 @@ void init(){
 
 
 unsigned long long pixel_position = 0;
-int print_buffer(u8* frame_buffer, u16* pixels){
+void print_buffer(u8* frame_buffer, u16* pixels){
 	// writes pixels to the screen
 	// the amount of pixels specified in PIXELS_PER_BATCH
-	// returns 0 if last batch was written
+
+	if(pixel_position == 288000){
+		gfxFlushBuffers();
+		gfxScreenSwapBuffers(GFX_TOP,false);
+		pixel_position = 0;
+	}
 
 	// end of the array
 	u16* pixels_end = pixels + PIXELS_PER_BATCH;
@@ -134,14 +139,6 @@ int print_buffer(u8* frame_buffer, u16* pixels){
 
 	}
 
-	if(pixel_position == 288000){
-		gfxFlushBuffers();
-		gfxScreenSwapBuffers(GFX_TOP,false);
-		pixel_position = 0;
-		return 0;
-	}
-
-	return 1;
 }
 
 
@@ -237,15 +234,16 @@ int main(int argc, char** argv) {
 					// recieved data
 					last_recieved_size = 0;
 
-					int ret = print_buffer((u8*)frame_buffer,
-											(u16*)recv_buffer);
 
-					if(ret == 0){
-						frame_buffer = gfxGetFramebuffer(GFX_TOP,
+					frame_buffer = gfxGetFramebuffer(GFX_TOP,
 													GFX_LEFT,
 													NULL, 
 													NULL);
-					}
+
+
+					print_buffer((u8*)frame_buffer,
+								(u16*)recv_buffer);
+
 
 					memset(recv_buffer, 0, BYTES_PER_BATCH);
 
@@ -307,7 +305,8 @@ int main(int argc, char** argv) {
 
 				// gfxFlushBuffers();
 				// gfxSwapBuffers();
-				//gspWaitForVBlank();
+				gfxScreenSwapBuffers(GFX_BOTTOM,false);
+				gspWaitForVBlank();
 			}
 
 
