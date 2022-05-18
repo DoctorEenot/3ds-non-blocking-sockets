@@ -51,8 +51,16 @@ void print_top(char* fmt, ...){
 	va_end(args);
 }
 
+void socShutdown() {
+	print_bottom("waiting for socExit...\n");
+	socExit();
+
+}
+
 void init(){
 	// Init main parameters
+
+	int ret;
 
 	print_bottom("\nPerforming init\n");
 	gfxInitDefault();
@@ -114,17 +122,12 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 }
 
 
-void socShutdown() {
-	print_bottom("waiting for socExit...\n");
-	socExit();
-
-}
-
-
 int main(int argc, char** argv) {
 	int ret;
 
 	bool run_main_loop = true;
+
+	bool stop_circle = true;
 
 	struct sockaddr_in client;
 	struct sockaddr_in server;
@@ -213,7 +216,8 @@ int main(int argc, char** argv) {
 														NULL, 
 														NULL);
 
-					print_buffer((u8*)frame_buffer,recv_buffer);
+					print_buffer((u8*)frame_buffer,
+								(u16*)recv_buffer);
 
 					memset(recv_buffer, 0, BYTES_PER_BATCH);
 
@@ -261,14 +265,18 @@ int main(int argc, char** argv) {
 
 				if (((circle_position.dy > 25) || (circle_position.dy < -25)) || ((circle_position.dx > 25) || (circle_position.dx < -25))) {
 					char posit[20];
+
+					stop_circle = true;
+
 					sprintf(posit, "%d;%d,", circle_position.dx, circle_position.dy);
 					send(client_sock, posit, strlen(posit), 0);
 					print_bottom("Circle x y pos is %d :  %d\n", circle_position.dx, circle_position.dy);
-				}else if (circle_position.dy < 25 && circle_position.dy > -25 && circle_position.dx < 25 && circle_position.dx > -25 && !run_main_loop) {
+				}else if (circle_position.dy < 25 && circle_position.dy > -25 && circle_position.dx < 25 && circle_position.dx > -25 && !stop_circle) {
 					send(client_sock, "0", 1, 0);
+
+					stop_circle = true;
 					
 					print_bottom("we are stopped\n");
-					run_main_loop = false;
 				}
 
 				//gspWaitForVBlank();
