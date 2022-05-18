@@ -150,6 +150,8 @@ void print_whole_buffer(u8* frame_buffer, u16* pixels){
 		pixel_position += 3;
 	}
 
+	gfxFlushBuffers();
+	gfxScreenSwapBuffers(GFX_TOP,false);
 
 }
 
