@@ -122,7 +122,7 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 }
 
 
-
+s32 server_sock = -1, client_sock = -1;
 
 int main(int argc, char** argv) {
 	int ret;
@@ -138,8 +138,6 @@ int main(int argc, char** argv) {
 	u32 last_recieved_size = 0;
 
 	u32	clientlen = sizeof(client);
-	s32 server_sock = -1, client_sock = -1;
-
 
 	// main init
 	memset(recv_buffer, 0, BYTES_PER_BATCH);
@@ -303,8 +301,8 @@ int main(int argc, char** argv) {
 void failExit(const char* fmt, ...) {
 	//---------------------------------------------------------------------------------
 
-	if (sock > 0) close(sock);
-	if (csock > 0) close(csock);
+	if (server_sock > 0) close(server_sock);
+	if (client_sock > 0) close(client_sock);
 
 	va_list ap;
 
