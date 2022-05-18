@@ -140,17 +140,18 @@ int main(int argc, char** argv) {
 	u32	clientlen = sizeof(client);
 	s32 server_sock = -1, client_sock = -1;
 
-	u8* frame_buffer = gfxGetFramebuffer(GFX_TOP,
-										 GFX_LEFT,
-										 NULL, 
-										 NULL);
 
 	// main init
-	memset(frame_buffer, 0, 240*400*3);
 	memset(recv_buffer, 0, BYTES_PER_BATCH);
 	memset(&server, 0, sizeof(server));
 	memset(&client, 0, sizeof(client));
 	init();
+
+	u8* frame_buffer = gfxGetFramebuffer(GFX_TOP,
+										 GFX_LEFT,
+										 NULL, 
+										 NULL);
+	memset(frame_buffer, 0, 240*400*3);
 
 	server.sin_family = AF_INET;
 	server.sin_port = htons(80);
@@ -198,7 +199,7 @@ int main(int argc, char** argv) {
 			}
 		}
 		else {
-			
+
 			// set client socket to blocking to simplify sending data back
 			//fcntl(csock, F_SETFL, fcntl(csock, F_GETFL, 0) & ~O_NONBLOCK);
 			print_bottom("Connecting port %d from %s\n", client.sin_port, inet_ntoa(client.sin_addr));
