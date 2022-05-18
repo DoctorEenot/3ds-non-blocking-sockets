@@ -123,29 +123,6 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 		pixel_position += 3;
 	}
 
-}
-
-void print_whole_buffer(u8* frame_buffer, u16* pixels){
-	// writes pixels to the screen
-	// the amount of pixels specified in PIXELS_PER_BATCH
-
-	// end of the array
-	u16* pixels_end = pixels + BYTES_IN_GFX_BUFFER;
-
-	// iterate over pixels
-	for(pixels; pixels<pixels_end; pixels += 1){
-		u16 pixel = *pixels;
-
-		uint8_t r = (pixel >> 11)<<3;
-		uint8_t g = ((pixel >> 5) & 0x3F)<<2;
-		uint8_t b = (pixel & 0x1F)<<3;
-
-		frame_buffer[pixel_position] = r;
-		frame_buffer[pixel_position+1] = g;
-		frame_buffer[pixel_position+2] = b;
-
-		pixel_position += 3;
-	}
 
 }
 
@@ -162,7 +139,7 @@ int main(int argc, char** argv) {
 	struct sockaddr_in client;
 	struct sockaddr_in server;
 	
-	u8 recv_buffer[BYTES_IN_GFX_BUFFER];
+	u8 recv_buffer[BYTES_PER_BATCH];
 	u32 last_recieved_size = 0;
 
 	u32	clientlen = sizeof(client);
@@ -234,11 +211,10 @@ int main(int argc, char** argv) {
 				
 				// recieving image
 				u32 result = recv(client_sock, 
-									recv_buffer,
-									BYTES_IN_GFX_BUFFER,
-									0);
+									recv_buffer + last_recieved_size,
+									BYTES_PER_BATCH-last_recieved_size, 0);
 				last_recieved_size += result;
-				if (result == BYTES_IN_GFX_BUFFER) {
+				if (last_recieved_size == BYTES_PER_BATCH) {
 					gspWaitForVBlank();
 					// recieved data
 					last_recieved_size = 0;
@@ -250,11 +226,11 @@ int main(int argc, char** argv) {
 													NULL);
 
 
-					print_whole_buffer((u8*)frame_buffer,
-										(u16*)recv_buffer);
+					print_buffer((u8*)frame_buffer,
+								(u16*)recv_buffer);
 
 
-					memset(recv_buffer, 0, BYTES_IN_GFX_BUFFER);
+					memset(recv_buffer, 0, BYTES_PER_BATCH);
 
 				}else if(result == -1){
 					// socket error
