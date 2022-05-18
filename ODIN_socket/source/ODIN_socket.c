@@ -43,12 +43,12 @@ void print_bottom(char* fmt, unsigned int n, ...){
 }
 void print_top(char* fmt, ...){
 	va_list args;
-	va_start(args,n);
+	//va_start(args,n);
 
 	//consoleSelect(&topScreen);
 	//printf(fmt,args);
 
-	va_end(args);
+	//va_end(args);
 }
 
 void socShutdown() {
@@ -162,7 +162,7 @@ int main(int argc, char** argv) {
 		failExit("socket: %d %s\n", errno, strerror(errno));
 	}
 
-	print_bottom("Connect to %s\n",1, inet_ntoa(server.sin_addr));
+	print_bottom("Connect to %s\n", 1, *inet_ntoa(server.sin_addr));
 
 	// bind server socket
 	if ((ret = bind(server_sock, (struct sockaddr*)&server, sizeof(server)))) {
