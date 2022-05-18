@@ -145,11 +145,12 @@ int main(int argc, char** argv) {
 	memset(&client, 0, sizeof(client));
 	init();
 
-	u8* frame_buffer = gfxGetFramebuffer(GFX_TOP,
-										 GFX_LEFT,
-										 NULL, 
-										 NULL);
-	memset(frame_buffer, 0, 240*400*3);
+	u8* frame_buffer;
+	// u8* frame_buffer = gfxGetFramebuffer(GFX_TOP,
+	// 									 GFX_LEFT,
+	// 									 NULL, 
+	// 									 NULL);
+	// memset(frame_buffer, 0, 240*400*3);
 
 	server.sin_family = AF_INET;
 	server.sin_port = htons(80);
