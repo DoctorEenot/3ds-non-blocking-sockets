@@ -223,8 +223,6 @@ int main(int argc, char** argv) {
 
 					memset(recv_buffer, 0, BYTES_PER_BATCH);
 
-					gfxFlushBuffers();
-					gfxSwapBuffers();
 				}else if(result == -1){
 					// socket error
 				}
@@ -281,6 +279,8 @@ int main(int argc, char** argv) {
 					print_bottom("we are stopped\n");
 				}
 
+				gfxFlushBuffers();
+				gfxSwapBuffers();
 				//gspWaitForVBlank();
 			}
 
