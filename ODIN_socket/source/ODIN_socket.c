@@ -41,7 +41,7 @@ void print_bottom(char* fmt, unsigned int n, ...){
 
 	va_end(args);
 }
-void print_top(char* fmt, unsigned int n, ...){
+void print_top(char* fmt, ...){
 	va_list args;
 	va_start(args,n);
 
