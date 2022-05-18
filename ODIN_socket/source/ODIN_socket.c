@@ -245,7 +245,7 @@ int main(int argc, char** argv) {
 									BYTES_IN_GFX_BUFFER, 0);
 				
 				//last_recieved_size += result;
-
+				print_bottom("packet size: %d",result);
 				if (result == BYTES_IN_GFX_BUFFER) {
 					gspWaitForVBlank();
 					// recieved data
