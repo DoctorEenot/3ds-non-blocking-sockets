@@ -241,12 +241,12 @@ int main(int argc, char** argv) {
 				
 				// recieving image
 				u32 result = recv(client_sock, 
-									recv_buffer,
-									BYTES_IN_GFX_BUFFER, 0);
+									recv_buffer+last_recieved_size,
+									BYTES_IN_GFX_BUFFER-last_recieved_size, 0);
 				
-				//last_recieved_size += result;
-				print_bottom("packet size: %d\n",result);
-				if (result == BYTES_IN_GFX_BUFFER) {
+				last_recieved_size += result;
+				//print_bottom("packet size: %d\n",result);
+				if (last_recieved_size == BYTES_IN_GFX_BUFFER) {
 					gspWaitForVBlank();
 					// recieved data
 					last_recieved_size = 0;
