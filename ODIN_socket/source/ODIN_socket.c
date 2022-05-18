@@ -108,9 +108,9 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 	for(pixels; pixels<pixels_end; pixels += 1){
 		u16 pixel = *pixels;
 
-		uint8_t r = (pixel >> 11) << 3;
-		uint8_t g = ((pixel >> 5) & 0x3F) << 2;
-		uint8_t b = (pixel & 0x1F) << 3;
+		uint8_t r = pixel >> 11;
+		uint8_t g = (pixel >> 5) & 0x3F;
+		uint8_t b = pixel & 0x1F;
 
 		frame_buffer[pixel_position] = r;
 		frame_buffer[pixel_position+1] = g;
@@ -215,10 +215,10 @@ int main(int argc, char** argv) {
 					// recieved data
 					last_recieved_size = 0;
 
-					u8* frame_buffer = gfxGetFramebuffer(GFX_TOP,
-														GFX_LEFT,
-														NULL, 
-														NULL);
+					frame_buffer = gfxGetFramebuffer(GFX_TOP,
+													GFX_LEFT,
+													NULL, 
+													NULL);
 
 					print_buffer((u8*)frame_buffer,
 								(u16*)recv_buffer);
