@@ -122,6 +122,8 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 }
 
 
+
+
 int main(int argc, char** argv) {
 	int ret;
 
@@ -265,13 +267,13 @@ int main(int argc, char** argv) {
 
 				if (((circle_position.dy > 25) || (circle_position.dy < -25)) || ((circle_position.dx > 25) || (circle_position.dx < -25))) {
 					char posit[20];
-
 					stop_circle = true;
 
 					sprintf(posit, "%d;%d,", circle_position.dx, circle_position.dy);
 					send(client_sock, posit, strlen(posit), 0);
 					print_bottom("Circle x y pos is %d :  %d\n", circle_position.dx, circle_position.dy);
 				}else if (circle_position.dy < 25 && circle_position.dy > -25 && circle_position.dx < 25 && circle_position.dx > -25 && !stop_circle) {
+					// circle is in the middle
 					send(client_sock, "0", 1, 0);
 
 					stop_circle = true;
