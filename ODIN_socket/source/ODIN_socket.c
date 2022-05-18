@@ -67,6 +67,8 @@ void init(){
 	// atexit functions execute in reverse order so this runs before gfxExit
 	atexit(socShutdown);
 
+	gfxSetDoubleBuffering(GFX_TOP,true);
+
 	print_bottom("\nInit complet\n");
 }
 
@@ -196,9 +198,17 @@ int main(int argc, char** argv) {
 					// recieved data
 					last_recieved_size = 0;
 
+					u8* frame_buffer = gfxGetFramebuffer(GFX_TOP,
+														GFX_LEFT,
+														NULL, 
+														NULL);
+
 					print_buffer((u8*)frame_buffer,recv_buffer);
 
 					memset(recv_buffer, 0, BYTES_PER_BATCH);
+
+					gfxFlushBuffers();
+					gfxSwapBuffers();
 				}else if(result == -1){
 					// socket error
 				}
@@ -251,9 +261,7 @@ int main(int argc, char** argv) {
 					run_main_loop = false;
 				}
 
-				gspWaitForVBlank();
-				gfxFlushBuffers();
-				gfxSwapBuffers();
+				//gspWaitForVBlank();
 			}
 
 
