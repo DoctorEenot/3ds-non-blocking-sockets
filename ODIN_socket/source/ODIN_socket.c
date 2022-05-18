@@ -121,7 +121,6 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 		frame_buffer[pixel_position+2] = b;
 
 		pixel_position += 3;
-
 	}
 
 
@@ -216,6 +215,7 @@ int main(int argc, char** argv) {
 									BYTES_PER_BATCH-last_recieved_size, 0);
 				last_recieved_size += result;
 				if (last_recieved_size == BYTES_PER_BATCH) {
+					gspWaitForVBlank();
 					// recieved data
 					last_recieved_size = 0;
 
@@ -288,8 +288,8 @@ int main(int argc, char** argv) {
 					//print_bottom("we are stopped\n");
 				}
 
+				gfxFlushBuffers();
 				gfxScreenSwapBuffers(GFX_BOTTOM,false);
-				gspWaitForVBlank();
 			}
 
 
