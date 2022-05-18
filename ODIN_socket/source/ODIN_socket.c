@@ -32,18 +32,18 @@ PrintConsole topScreen, bottomScreen;
 __attribute__((format(printf, 1, 2)))
 void failExit(const char* fmt, ...);
 
-void print_bottom(char* fmt, ...){
+void print_bottom(char* fmt, unsigned int n, ...){
 	va_list args;
-	va_start(args,fmt);
+	va_start(args,n);
 
 	consoleSelect(&bottomScreen);
 	printf(fmt,args);
 
 	va_end(args);
 }
-void print_top(char* fmt, ...){
+void print_top(char* fmt, unsigned int n, ...){
 	va_list args;
-	va_start(args,fmt);
+	va_start(args,n);
 
 	//consoleSelect(&topScreen);
 	//printf(fmt,args);
@@ -52,7 +52,7 @@ void print_top(char* fmt, ...){
 }
 
 void socShutdown() {
-	print_bottom("waiting for socExit...\n");
+	print_bottom("waiting for socExit...\n",0);
 	socExit();
 
 }
@@ -62,7 +62,7 @@ void init(){
 
 	int ret;
 
-	print_bottom("\nPerforming init\n");
+	print_bottom("\nPerforming init\n",0);
 	gfxInitDefault();
 	
 	atexit(gfxExit);
@@ -87,7 +87,7 @@ void init(){
 
 	gfxSetDoubleBuffering(GFX_TOP,true);
 
-	print_bottom("\nInit complet\n");
+	print_bottom("\nInit complet\n",0);
 }
 
 
@@ -162,7 +162,7 @@ int main(int argc, char** argv) {
 		failExit("socket: %d %s\n", errno, strerror(errno));
 	}
 
-	print_bottom("Connect to %s\n", inet_ntoa(server.sin_addr));
+	print_bottom("Connect to %s\n",1, inet_ntoa(server.sin_addr));
 
 	// bind server socket
 	if ((ret = bind(server_sock, (struct sockaddr*)&server, sizeof(server)))) {
@@ -201,7 +201,7 @@ int main(int argc, char** argv) {
 
 			// set client socket to blocking to simplify sending data back
 			//fcntl(csock, F_SETFL, fcntl(csock, F_GETFL, 0) & ~O_NONBLOCK);
-			print_bottom("Connecting port %d from %s\n", client.sin_port, inet_ntoa(client.sin_addr));
+			print_bottom("Connecting port %d from %s\n", 2, client.sin_port, inet_ntoa(client.sin_addr));
 			
 			while (client_sock != -1) {
 				
@@ -243,25 +243,25 @@ int main(int argc, char** argv) {
 					break;
 				}else if (pressed_key & KEY_A) {
 					send(client_sock, "A,", 2, 0);
-					print_bottom("You pressed A\n");
+					print_bottom("You pressed A\n",0);
 				}else if (pressed_key & KEY_B) {
 					send(client_sock, "B,", 2, 0);
-					print_bottom("You pressed B\n");
+					print_bottom("You pressed B\n",0);
 				}else if (pressed_key & KEY_X) {
 					send(client_sock, "X,", 2, 0);
-					print_bottom("You pressed X\n");
+					print_bottom("You pressed X\n",0);
 				}else if (pressed_key & KEY_Y) {
 					send(client_sock, "Y,", 2, 0);
-					print_bottom("You pressed Y\n");
+					print_bottom("You pressed Y\n",0);
 				}else if (pressed_key & KEY_SELECT) {
 					send(client_sock, "SELECT,", 7, 0);
-					print_bottom("You pressed SELECT\n");
+					print_bottom("You pressed SELECT\n",0);
 				}else if (pressed_key & KEY_DUP) {
 					send(client_sock, "u,", 2, 0);
-					print_bottom("You pressed dUP\n");
+					print_bottom("You pressed dUP\n",0);
 				}else if (pressed_key & KEY_DDOWN) {
 					send(client_sock, "d,", 2, 0);
-					print_bottom("You pressed dDOWN\n");
+					print_bottom("You pressed dDOWN\n",0);
 				}
 
 				if (((circle_position.dy > 25) || (circle_position.dy < -25)) || ((circle_position.dx > 25) || (circle_position.dx < -25))) {
@@ -270,14 +270,14 @@ int main(int argc, char** argv) {
 
 					sprintf(posit, "%d;%d,", circle_position.dx, circle_position.dy);
 					send(client_sock, posit, strlen(posit), 0);
-					print_bottom("Circle x y pos is %d :  %d\n", circle_position.dx, circle_position.dy);
+					print_bottom("Circle x y pos is %d :  %d\n", 2, circle_position.dx, circle_position.dy);
 				}else if (circle_position.dy < 25 && circle_position.dy > -25 && circle_position.dx < 25 && circle_position.dx > -25 && !stop_circle) {
 					// circle is in the middle
 					send(client_sock, "0", 1, 0);
 
 					stop_circle = true;
 					
-					print_bottom("we are stopped\n");
+					print_bottom("we are stopped\n",0);
 				}
 
 				gfxFlushBuffers();
