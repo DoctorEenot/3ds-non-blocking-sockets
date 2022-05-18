@@ -168,14 +168,14 @@ int main(int argc, char** argv) {
 	struct sockaddr_in client;
 	struct sockaddr_in server;
 	
-	u8* recv_buffer = malloc(BYTES_IN_GFX_BUFFER);
+	u8* recv_buffer = (u8*)malloc(BYTES_IN_GFX_BUFFER);
 
 	u32 last_recieved_size = 0;
 
 	u32	clientlen = sizeof(client);
 
 	// main init
-	memset(recv_buffer, 0, BYTES_PER_BATCH);
+	memset(recv_buffer, 0, BYTES_IN_GFX_BUFFER);
 	memset(&server, 0, sizeof(server));
 	memset(&client, 0, sizeof(client));
 	init();
@@ -242,12 +242,12 @@ int main(int argc, char** argv) {
 				// recieving image
 				u32 result = recv(client_sock, 
 									recv_buffer+last_recieved_size,
-									100000, 0);
+									50000, 0);
 				
 				last_recieved_size += result;
 				//print_bottom("packet size: %d\n",result);
 				if (last_recieved_size == BYTES_IN_GFX_BUFFER) {
-					print_bottom("packet size: %d\n",last_recieved_size);
+					//print_bottom("packet size: %d\n",last_recieved_size);
 					gspWaitForVBlank();
 					// recieved data
 					last_recieved_size = 0;
