@@ -20,6 +20,7 @@
 #define SOC_BUFFERSIZE  0x100000
 
 #define PIXELS_AMOUNT 96000
+#define BYTES_IN_GFX_BUFFER 288000
 #define BYTES_PER_BATCH 512
 #define PIXELS_PER_BATCH 256
 #define TOP_WIDTH 400
@@ -98,7 +99,7 @@ void print_buffer(u8* frame_buffer, u16* pixels){
 	// writes pixels to the screen
 	// the amount of pixels specified in PIXELS_PER_BATCH
 
-	if(pixel_position == PIXELS_AMOUNT){
+	if(pixel_position == 288000){
 		pixel_position = 0;
 	}
 
@@ -216,15 +217,12 @@ int main(int argc, char** argv) {
 					// recieved data
 					last_recieved_size = 0;
 
-					u16 width = 0;
-					u16 height = 0;
 
 					frame_buffer = gfxGetFramebuffer(GFX_TOP,
 													GFX_LEFT,
-													&width, 
-													&height);
+													NULL, 
+													NULL);
 
-					print_bottom("SIZE: %d %d\n",width,height);
 
 					print_buffer((u8*)frame_buffer,
 								(u16*)recv_buffer);
