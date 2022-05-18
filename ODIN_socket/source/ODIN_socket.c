@@ -32,7 +32,7 @@ PrintConsole topScreen, bottomScreen;
 __attribute__((format(printf, 1, 2)))
 void failExit(const char* fmt, ...);
 
-void print_bottom(char* fmt...){
+void print_bottom(char* fmt, ...){
 	va_list args;
 	va_start(args,fmt);
 
@@ -41,7 +41,7 @@ void print_bottom(char* fmt...){
 
 	va_end(args);
 }
-void print_top(char* fmt...){
+void print_top(char* fmt, ...){
 	va_list args;
 	va_start(args,fmt);
 
