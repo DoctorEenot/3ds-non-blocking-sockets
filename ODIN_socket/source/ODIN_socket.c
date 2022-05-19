@@ -146,7 +146,7 @@ void print_whole_buffer(u8* frame_buffer, u16* pixels){
 		// uint8_t g = ((pixel >> 5) & 0x3F)<<2;
 		uint8_t b = (pixel & 0x1F)<<3;
 
-		*(u16*)frame_buffer[pixel_position] = r_g;
+		*(u16*)(&frame_buffer[pixel_position]) = r_g;
 		// frame_buffer[pixel_position] = r;
 		// frame_buffer[pixel_position+1] = g;
 		frame_buffer[pixel_position+2] = b;
