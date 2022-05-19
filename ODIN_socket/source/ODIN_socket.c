@@ -134,7 +134,7 @@ void print_whole_buffer(u8* frame_buffer, u16* pixels){
 	unsigned long long pixel_position = 0;
 
 	// end of the array
-	u16* pixels_end = pixels + BYTES_IN_GFX_BUFFER;
+	u16* pixels_end = pixels + BYTES_IN_IMAGE;
 
 	// iterate over pixels
 	for(pixels; pixels<pixels_end; pixels += 1){
