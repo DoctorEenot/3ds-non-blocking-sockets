@@ -151,7 +151,7 @@ void print_whole_buffer(u8* frame_buffer, u16* pixels){
 		pixel_position += 3;
 	}
 
-	//gfxFlushBuffers();
+	gfxFlushBuffers();
 	gfxScreenSwapBuffers(GFX_TOP,false);
 
 }
@@ -213,7 +213,7 @@ int main(int argc, char** argv) {
 	}
 
 	// start main app loop
-	while (aptMainLoop() & run_main_loop) {
+	while (aptMainLoop() && run_main_loop) {
 		hidScanInput();
 
 		// read pressed key
@@ -282,24 +282,31 @@ int main(int argc, char** argv) {
 					case KEY_A: 
 						send(client_sock, "A,", 2, 0);
 						//print_bottom("You pressed A\n");
+						break;
 					case KEY_B:
 						send(client_sock, "B,", 2, 0);
 						//print_bottom("You pressed B\n");
+						break;
 					case KEY_X:
 						send(client_sock, "X,", 2, 0);
 						//print_bottom("You pressed X\n");
+						break;
 					case KEY_Y: 
 						send(client_sock, "Y,", 2, 0);
 						//print_bottom("You pressed Y\n");
+						break;
 					case KEY_SELECT:
 						send(client_sock, "SELECT,", 7, 0);
 						//print_bottom("You pressed SELECT\n");
+						break;
 					case KEY_DUP:
 						send(client_sock, "u,", 2, 0);
 						//print_bottom("You pressed dUP\n");
+						break;
 					case KEY_DDOWN: 
 						send(client_sock, "d,", 2, 0);
 						//print_bottom("You pressed dDOWN\n");
+						break;
 				}
 
 				if (((circle_position.dy > 25) || (circle_position.dy < -25)) || ((circle_position.dx > 25) || (circle_position.dx < -25))) {
