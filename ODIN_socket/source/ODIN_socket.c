@@ -168,13 +168,13 @@ int main(int argc, char** argv) {
 	struct sockaddr_in client;
 	struct sockaddr_in server;
 	
-	u8 recv_buffer[BYTES_IN_GFX_BUFFER];
+	u8* recv_buffer = malloc(BYTES_IN_GFX_BUFFER);
 	u32 last_recieved_size = 0;
 
 	u32	clientlen = sizeof(client);
 
 	// main init
-	memset(recv_buffer, 0, BYTES_IN_GFX_BUFFER);
+	//memset(recv_buffer, 0, BYTES_IN_GFX_BUFFER);
 	memset(&server, 0, sizeof(server));
 	memset(&client, 0, sizeof(client));
 	init();
