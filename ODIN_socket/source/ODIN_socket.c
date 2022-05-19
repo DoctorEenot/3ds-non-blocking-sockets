@@ -237,7 +237,7 @@ int main(int argc, char** argv) {
 			// set client socket to blocking to simplify sending data back
 			print_bottom("Connecting port %d from %s\n", client.sin_port, inet_ntoa(client.sin_addr));
 			
-			while (client_sock != -1) {
+			while (client_sock != -1 && run_main_loop) {
 				
 				// recieving image
 				u32 result = recv(client_sock, 
