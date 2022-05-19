@@ -275,33 +275,31 @@ int main(int argc, char** argv) {
 				circlePosition circle_position;
 				hidCircleRead(&circle_position);
 
-				// read pressed key
-				u32 pressed_key = hidKeysDown();
-
-				if (pressed_key & KEY_START){
-					run_main_loop = false; 
-					break;
-				}else if (pressed_key & KEY_A) {
-					send(client_sock, "A,", 2, 0);
-					//print_bottom("You pressed A\n");
-				}else if (pressed_key & KEY_B) {
-					send(client_sock, "B,", 2, 0);
-					//print_bottom("You pressed B\n");
-				}else if (pressed_key & KEY_X) {
-					send(client_sock, "X,", 2, 0);
-					//print_bottom("You pressed X\n");
-				}else if (pressed_key & KEY_Y) {
-					send(client_sock, "Y,", 2, 0);
-					//print_bottom("You pressed Y\n");
-				}else if (pressed_key & KEY_SELECT) {
-					send(client_sock, "SELECT,", 7, 0);
-					//print_bottom("You pressed SELECT\n");
-				}else if (pressed_key & KEY_DUP) {
-					send(client_sock, "u,", 2, 0);
-					//print_bottom("You pressed dUP\n");
-				}else if (pressed_key & KEY_DDOWN) {
-					send(client_sock, "d,", 2, 0);
-					//print_bottom("You pressed dDOWN\n");
+				switch(hidKeysDown()){
+					case KEY_START:
+						run_main_loop = false; 
+						break;
+					case KEY_A: 
+						send(client_sock, "A,", 2, 0);
+						//print_bottom("You pressed A\n");
+					case KEY_B:
+						send(client_sock, "B,", 2, 0);
+						//print_bottom("You pressed B\n");
+					case KEY_X:
+						send(client_sock, "X,", 2, 0);
+						//print_bottom("You pressed X\n");
+					case KEY_Y: 
+						send(client_sock, "Y,", 2, 0);
+						//print_bottom("You pressed Y\n");
+					case KEY_SELECT:
+						send(client_sock, "SELECT,", 7, 0);
+						//print_bottom("You pressed SELECT\n");
+					case KEY_DUP:
+						send(client_sock, "u,", 2, 0);
+						//print_bottom("You pressed dUP\n");
+					case KEY_DDOWN: 
+						send(client_sock, "d,", 2, 0);
+						//print_bottom("You pressed dDOWN\n");
 				}
 
 				if (((circle_position.dy > 25) || (circle_position.dy < -25)) || ((circle_position.dx > 25) || (circle_position.dx < -25))) {
