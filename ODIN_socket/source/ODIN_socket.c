@@ -21,6 +21,7 @@
 
 #define PIXELS_AMOUNT 96000
 #define BYTES_IN_GFX_BUFFER 288000
+#define BYTES_IN_IMAGE 192000
 #define BYTES_PER_BATCH 512
 #define PIXELS_PER_BATCH 256
 #define TOP_WIDTH 400
@@ -168,7 +169,7 @@ int main(int argc, char** argv) {
 	struct sockaddr_in client;
 	struct sockaddr_in server;
 	
-	u8* recv_buffer = malloc(BYTES_IN_GFX_BUFFER);
+	u8* recv_buffer = malloc(BYTES_IN_IMAGE);
 	u32 last_recieved_size = 0;
 
 	u32	clientlen = sizeof(client);
@@ -241,12 +242,12 @@ int main(int argc, char** argv) {
 				// recieving image
 				u32 result = recv(client_sock, 
 									recv_buffer + last_recieved_size,
-									BYTES_IN_GFX_BUFFER - last_recieved_size, 0);
+									BYTES_IN_IMAGE - last_recieved_size, 0);
 				if(result != -1){
 					print_bottom("Recieved:%d\n",result);
 					last_recieved_size += result;
 				}
-				if (last_recieved_size == BYTES_IN_GFX_BUFFER) {
+				if (last_recieved_size == BYTES_IN_IMAGE) {
 					//gspWaitForVBlank();
 					// recieved data
 					last_recieved_size = 0;
