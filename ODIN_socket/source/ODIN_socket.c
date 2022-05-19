@@ -244,10 +244,11 @@ int main(int argc, char** argv) {
 									recv_buffer + last_recieved_size,
 									BYTES_IN_IMAGE - last_recieved_size, 0);
 				if(result != -1){
-					print_bottom("Recieved:%d\n",result);
+					//print_bottom("Recieved:%d\n",result);
 					last_recieved_size += result;
 				}
 				if (last_recieved_size == BYTES_IN_IMAGE) {
+					print_bottom("Recieved:%d\n",last_recieved_size);
 					//gspWaitForVBlank();
 					// recieved data
 					last_recieved_size = 0;
