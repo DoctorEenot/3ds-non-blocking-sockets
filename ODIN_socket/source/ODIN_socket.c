@@ -246,7 +246,7 @@ int main(int argc, char** argv) {
 					print_bottom("Recieved:%d\n",result);
 					last_recieved_size += result;
 				}
-				else if (last_recieved_size == BYTES_IN_GFX_BUFFER) {
+				if (last_recieved_size == BYTES_IN_GFX_BUFFER) {
 					//gspWaitForVBlank();
 					// recieved data
 					last_recieved_size = 0;
