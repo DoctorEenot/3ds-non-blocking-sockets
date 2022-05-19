@@ -243,6 +243,7 @@ int main(int argc, char** argv) {
 									recv_buffer + last_recieved_size,
 									BYTES_IN_GFX_BUFFER - last_recieved_size, 0);
 				if(result != -1){
+					print_bottom("Recieved:%d\n",result);
 					last_recieved_size += result;
 				}
 				else if (last_recieved_size == BYTES_IN_GFX_BUFFER) {
