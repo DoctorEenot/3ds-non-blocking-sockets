@@ -151,7 +151,7 @@ void print_whole_buffer(u8* frame_buffer, u16* pixels){
 		pixel_position += 3;
 	}
 
-	gfxFlushBuffers();
+	//gfxFlushBuffers();
 	gfxScreenSwapBuffers(GFX_TOP,false);
 
 }
@@ -320,7 +320,7 @@ int main(int argc, char** argv) {
 					//print_bottom("we are stopped\n");
 				}
 
-				gfxFlushBuffers();
+				//gfxFlushBuffers();
 				gfxScreenSwapBuffers(GFX_BOTTOM,false);
 			}
 
