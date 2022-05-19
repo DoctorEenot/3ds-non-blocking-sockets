@@ -311,7 +311,7 @@ int main(int argc, char** argv) {
 
 				if (((circle_position.dy > 25) || (circle_position.dy < -25)) || ((circle_position.dx > 25) || (circle_position.dx < -25))) {
 					char posit[20];
-					stop_circle = true;
+					stop_circle = false;
 
 					sprintf(posit, "%d;%d,", circle_position.dx, circle_position.dy);
 					send(client_sock, posit, strlen(posit), 0);
