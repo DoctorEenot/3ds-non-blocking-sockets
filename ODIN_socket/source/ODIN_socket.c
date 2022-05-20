@@ -317,7 +317,7 @@ int main(int argc, char** argv) {
 					send(client_sock, posit, strlen(posit), 0);
 					//print_bottom("Circle x y pos is %d :  %d\n", circle_position.dx, circle_position.dy);
 				}else if(!stop_circle){
-					circle is in the middle
+					//circle is in the middle
 					send(client_sock, "0", 1, 0);
 
 					stop_circle = true;
